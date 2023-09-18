@@ -22,6 +22,7 @@ async function sendMessage() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: textContent }),
+            credentials: 'include',
             signal
         });
 
@@ -58,10 +59,10 @@ async function loadHistory() {
     try {
         const response = await fetch('https://api.theisensanders.com/chat/history', {
             method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
         });
         const responseData = await response.json();
-        console.log(responseData);
 
         responseData.forEach(({ role, content }) => {
             let className = 'message';

@@ -1,3 +1,8 @@
+:root {
+    --body-color: #1A1A1A;
+    --error-color: #e70058;
+}
+
 html {
     box-sizing: border-box;
   }
@@ -12,20 +17,24 @@ html {
     margin: 0 auto;
     font-family: "Inter", sans-serif;
     line-height: 1.5;
-    color: #1a1a1a;
+    color: var(--body-color);
     font-weight: 400;
   }
 
   a, button {
     text-decoration: none;
-    fill: #1a1a1a;
-    color: #1a1a1a;
+    color: var(--body-color);
   }
 
   button {
     background: none;
     cursor: pointer;
     text-align: center;
+  }
+
+  button:hover {
+    background-color: #eeeeee;
+    fill: #000;
   }
 
   button.button-svg {
@@ -106,7 +115,7 @@ html {
   }
 
   .message-error {
-    color: rgb(197, 65, 65);
+    color: var(--error-color);
   }
 
   .message .message-content {
@@ -134,6 +143,7 @@ html {
     flex: 1 1 0;
     width: 0;
     border: 1px solid #ebebeb;
+    border-radius: 0.3rem;
   }
 
   .chat-input {
@@ -145,7 +155,6 @@ html {
   textarea {
     color: inherit;
     font-family: inherit;
-    font-size: var(--typography-p);
     line-height: 1;
     margin: 0;
     outline: none;
