@@ -1,6 +1,7 @@
 const textArea = document.querySelector('.chat-input textarea');
 const submitButton = document.querySelector('.chat-input button');
 const chatArea = document.querySelector('.chat-area');
+const prompts = document.querySelector('.prompts')
 const cannedPrompt = document.querySelectorAll('.canned-prompt');
 
 async function sendMessage() {
@@ -85,6 +86,34 @@ async function loadHistory() {
     }
 }
 
+async function loadPrompts() {
+    try {
+        const response = await fetch('https://api.theisensanders.com/chat/prompts', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+        });
+        const responseData = await response.json();
+
+        responseData.forEach(({ title, prompt }) => {
+            const button = document.createElement('button');
+            button.className = 'canned-prompt';
+            button.setAttribute('data-prompt', prompt);
+            button.append(title);
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                textArea.value = e.target.attributes['data-prompt'].value;
+                if (!e.target.attributes['data-submit'] || e.target.attributes['data-submit'].value !== 'false') {
+                    sendMessage();
+                }
+            });
+            prompts.appendChild(button);
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 // Cleaned up event listeners with arrow functions
 submitButton.addEventListener('click', (e) => {
     e.preventDefault();
@@ -109,3 +138,6 @@ cannedPrompt.forEach((button) => {
 });
 
 loadHistory();
+loadPrompts();
+
+document.getElementById('current-year').textContent = new Date().getFullYear();

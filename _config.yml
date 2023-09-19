@@ -2,4 +2,3 @@
 theme: null
 baseurl: '/'
 exclude: ['Gemfile.lock', 'Gemfile', 'README.md']
-font: 'Raleway'
