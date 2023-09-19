@@ -17,32 +17,40 @@ async function sendMessage() {
 
     const el = appendMessage('message', []);
     try {
-        const { signal } = new AbortController();
-        const response = await fetch('https://api.theisensanders.com/chat/message', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: textContent }),
-            credentials: 'include',
-            signal
-        });
+        const eventSource = new EventSource(`https://api.theisensanders.com/chat/message?message=${encodeURIComponent(textContent)}`);
 
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder('utf-8');
+        eventSource.onopen = () => {
+            console.debug('Connection opened');
+        };
 
-        while (true) {
-            const { done, value } = await reader.read();
-            if (done) {
-                submitButton.disabled = false;
-                break;
+        eventSource.onmessage = (event) => {
+            el.textContent += event.data;
+        };
+
+        eventSource.onerror = (error) => {
+            eventSource.close();
+            submitButton.disabled = false;
+            console.log(error);
+
+            // If it's a MessageEvent then it's a server error, otherwise it's likely just a closed connection
+            if (error instanceof MessageEvent) {
+                eventSource.close();
+                console.error('Event stream error:', error);
+                el.className += ' message-error';
+                el.textContent += 'ERROR: ' + error.data;
+                return;
             }
 
-            let chunk = decoder.decode(value, { stream: true });
-            el.textContent = el.textContent + chunk;
-        }
+            console.debug('Connection was closed');
+        };
+
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Network error:', error);
+        el.className += ' message-error';
+        el.textContent += 'ERROR: ' + error;
     }
 }
+
 
 function appendMessage(messageClass, text) {
     const message = document.createElement('div');
