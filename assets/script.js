@@ -4,6 +4,8 @@ const chatArea = document.querySelector('.chat-area');
 const prompts = document.querySelector('.prompts')
 const cannedPrompt = document.querySelectorAll('.canned-prompt');
 
+const mode = new URLSearchParams(window.location.search).get('mode') || 'cv';
+
 async function sendMessage() {
     if (submitButton.disabled) {
         return;
@@ -18,14 +20,15 @@ async function sendMessage() {
 
     const el = appendMessage('message', []);
     try {
-        const eventSource = new EventSource(`https://api.theisensanders.com/chat/message?message=${encodeURIComponent(textContent)}`);
+        const eventSource = new EventSource(`https://api.theisensanders.com/chat/message?mode=${mode}&message=${encodeURIComponent(textContent)}`);
 
         eventSource.onopen = () => {
             console.debug('Connection opened');
         };
 
         eventSource.onmessage = (event) => {
-            el.textContent += event.data;
+            const data = JSON.parse(event.data);
+            el.textContent += data;
         };
 
         eventSource.onerror = (error) => {
@@ -66,11 +69,17 @@ function appendMessage(messageClass, text) {
 
 async function loadHistory() {
     try {
-        const response = await fetch('https://api.theisensanders.com/chat/history', {
+        const response = await fetch(`https://api.theisensanders.com/chat/history?mode=${mode}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
         });
+        if (!response.ok) {
+            const text = await response.text()
+            appendMessage('message message-error', 'Error: ' + text)
+            return;
+        }
+
         const responseData = await response.json();
 
         responseData.forEach(({ role, content }) => {
@@ -88,7 +97,7 @@ async function loadHistory() {
 
 async function loadPrompts() {
     try {
-        const response = await fetch('https://api.theisensanders.com/chat/prompts', {
+        const response = await fetch(`https://api.theisensanders.com/chat/prompts?mode=${mode}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
