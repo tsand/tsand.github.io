@@ -2,127 +2,80 @@ const textArea = document.querySelector(".chat-input textarea");
 const submitButton = document.querySelector(".chat-input button");
 const chatArea = document.querySelector(".chat-area");
 const prompts = document.querySelector(".prompts");
-const cannedPrompt = document.querySelectorAll(".canned-prompt");
-
+const cannedPrompts = document.querySelectorAll(".canned-prompt");
 const mode = new URLSearchParams(window.location.search).get("mode");
 
-function getUrl(path, params) {
-    params = params || {};
+function getUrl(path, params = {}) {
     if (mode !== null) {
         params["mode"] = mode;
     }
-    return (
-        `https://api.theisensanders.com/${path}` +
-        "?" +
-        Object.entries(params)
-            .map(([key, value]) => encodeURIComponent(key) + "=" + encodeURIComponent(value))
-            .join("&")
-    );
+    return `https://api.theisensanders.com/${path}?${Object.entries(params)
+        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+        .join("&")}`;
 }
 
 async function sendMessage() {
-    if (submitButton.disabled) {
-        return;
-    }
+    if (submitButton.disabled) return;
     submitButton.disabled = true;
 
     const textContent = textArea.value.trim();
     textArea.value = "";
     chatArea.scrollTop = chatArea.scrollHeight;
-
     insertMessage("message message-right", textContent);
 
-    var buffer = "";
+    let buffer = "";
     const el = insertMessage("message", []);
     try {
         await sendMessageViaPOST(textContent, (data) => {
             buffer += data;
             import("./textToHTML.js").then(({ default: textToHTML }) => {
-                textToHTML(buffer).then((html) => {
-                    el.innerHTML = html;
-                });
+                textToHTML(buffer).then((html) => (el.innerHTML = html));
             });
         });
     } catch (error) {
-        console.error("Network error:", error);
+        console.error(error);
         el.className += " message-error";
-        el.textContent += "ERROR: " + error;
+        el.textContent = error;
     } finally {
         submitButton.disabled = false;
     }
 }
 
-async function sendMessageViaEventSource(message, callback) {
-    return new Promise((resolve, reject) => {
-        const eventSource = new EventSource(getUrl("chat/message", { message: message }));
-        eventSource.onopen = () => {
-            console.debug("Connection opened");
-        };
-
-        eventSource.onmessage = (event) => {
-            console.log(event);
-            const data = JSON.parse(event.data);
-            callback(data);
-        };
-
-        eventSource.onerror = (error) => {
-            eventSource.close();
-
-            // If it's a MessageEvent then it's a server error, otherwise it's likely just a closed connection
-            if (error instanceof MessageEvent) {
-                eventSource.close();
-                console.error("Event stream error:", error);
-                reject(new Error(error.data));
-                return;
-            }
-
-            console.debug("Connection was closed");
-            resolve();
-        };
-    });
-}
-
 async function sendMessageViaPOST(message, callback) {
-    try {
-        const response = await fetch(getUrl("chat/message"), {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "text/event-stream",
-            },
-            credentials: "include",
-            body: JSON.stringify({ message }),
-        });
+    const response = await fetch(getUrl("chat/message"), {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "text/event-stream",
+        },
+        credentials: "include",
+        body: JSON.stringify({ message }),
+    });
 
-        if (!response.ok) {
-            throw new Error(`Fetch error: ${response.statusText}`);
-        }
+    if (!response.ok) {
+        throw new Error(`Fetch error: ${response.statusText}`);
+    }
 
-        const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+    const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
 
-        while (true) {
-            const { value, done } = await reader.read();
-            if (done) break;
+    while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
 
-            const events = value.split("\n\n");
-            for (const event of events) {
-                if (!event.trim()) {
-                    continue;
-                }
-                const eventType = parseEventType(event);
-                const eventData = parseEventData(event);
-
-                if (eventType === "error") {
-                    console.error("Event stream error:", eventData);
-                    throw new Error(eventData);
-                }
-
-                callback(eventData);
+        const events = value.split("\n\n");
+        for (const event of events) {
+            if (!event.trim()) {
+                continue;
             }
+            const eventType = parseEventType(event);
+            const eventData = parseEventData(event);
+
+            if (eventType === "error") {
+                throw new Error(eventData);
+            }
+
+            callback(eventData);
         }
-    } catch (error) {
-        console.error("Error:", error);
-        throw error;
     }
 }
 
@@ -145,9 +98,7 @@ function insertMessage(messageClass, text) {
     chatArea.prepend(message);
 
     import("./textToHTML.js").then(({ default: textToHTML }) => {
-        textToHTML(text).then((html) => {
-            messageContent.innerHTML = html;
-        });
+        textToHTML(text).then((html) => (messageContent.innerHTML = html));
     });
 
     return messageContent;
@@ -215,7 +166,6 @@ async function loadPrompts() {
     }
 }
 
-// Cleaned up event listeners with arrow functions
 submitButton.addEventListener("click", (e) => {
     e.preventDefault();
     sendMessage();
@@ -228,13 +178,13 @@ textArea.addEventListener("keydown", (e) => {
     }
 });
 
-cannedPrompt.forEach((button) => {
+cannedPrompts.forEach((button) => {
     button.addEventListener("click", (e) => {
         e.preventDefault();
-        textArea.value = e.target.attributes["data-prompt"].value;
+        textArea.value = e.target.getAttribute("data-prompt");
         if (
-            !e.target.attributes["data-submit"] ||
-            e.target.attributes["data-submit"].value !== "false"
+            !e.target.getAttribute("data-submit") ||
+            e.target.getAttribute("data-submit") !== "false"
         ) {
             sendMessage();
         }
@@ -243,5 +193,4 @@ cannedPrompt.forEach((button) => {
 
 loadHistory();
 loadPrompts();
-
 document.getElementById("current-year").textContent = new Date().getFullYear();
