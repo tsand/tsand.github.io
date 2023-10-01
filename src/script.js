@@ -28,9 +28,7 @@ async function sendMessage() {
     try {
         await sendMessageViaPOST(textContent, (data) => {
             buffer += data;
-            import("./textToHTML.js").then(({ default: textToHTML }) => {
-                textToHTML(buffer).then((html) => (el.innerHTML = html));
-            });
+            convertTextToHTML(buffer).then((html) => (el.innerHTML = html));
         });
     } catch (error) {
         console.error(error);
@@ -97,9 +95,14 @@ function insertMessage(messageClass, text) {
     message.appendChild(messageContent);
     chatArea.prepend(message);
 
-    import("./textToHTML.js").then(({ default: textToHTML }) => {
-        textToHTML(text).then((html) => (messageContent.innerHTML = html));
-    });
+    if (!text.includes("\n")) {
+        // If the message is a single line we don't need to load the extra libraries
+        const p = document.createElement("p");
+        p.textContent = text;
+        messageContent.appendChild(p);
+    } else {
+        convertTextToHTML(text).then((html) => (messageContent.innerHTML = html));
+    }
 
     return messageContent;
 }
@@ -164,6 +167,24 @@ async function loadPrompts() {
     } catch (e) {
         console.log(e);
     }
+}
+
+let textToHTML;
+
+async function convertTextToHTML(text) {
+    if (!textToHTML) {
+        if (!containsBasicMarkdown(text)) {
+            return "<p>" + text + "</p>";
+        }
+        const { default: f } = await import("./textToHTML.js");
+        textToHTML = f;
+    }
+    return await textToHTML(text);
+}
+
+function containsBasicMarkdown(str) {
+    const markdownPattern = /(\n|#+\s.*|\*{1,2}[^*]+\*{1,2}|_{1,2}[^_]+_{1,2})/;
+    return markdownPattern.test(str);
 }
 
 submitButton.addEventListener("click", (e) => {

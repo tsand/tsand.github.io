@@ -17,8 +17,8 @@
     },
     "scripts": {
         "clean": "rm -rf ./dist/*",
-        "build": "npm run clean && mkdir -p ./dist/assets && cp ./src/*.svg ./dist/assets/ && cp ./*.html ./dist/ && esbuild `find ./src/ \\( -name '*.css' -o -name '*.js' \\)` --bundle --splitting --format=esm --outdir=./dist/assets",
-        "build-prod": "npm run clean && mkdir -p ./dist/assets && cp ./src/*.svg ./dist/assets/ && cp ./*.html ./dist/ && esbuild `find ./src/ \\( -name '*.css' -o -name '*.js' \\)` --bundle --minify --splitting --format=esm --outdir=./dist/assets",
-        "watch": "npm run clean && mkdir -p ./dist/assets && cp ./src/*.svg ./dist/assets/ && cp ./*.html ./dist/ && esbuild `find ./src/ \\( -name '*.css' -o -name '*.js' \\)` --bundle --watch --splitting --format=esm --outdir=./dist/assets"
+        "build": "npm run clean && mkdir -p ./dist/assets && cp ./static ./dist/static/ && cp ./*.html ./dist/ && esbuild `find ./src/ \\( -name '*.css' -o -name '*.js' \\)` --bundle --splitting --format=esm --outdir=./dist/assets",
+        "build-prod": "npm run clean && mkdir -p ./dist/assets && cp -r ./static ./dist/ && cp ./*.html ./dist/ && esbuild `find ./src/ \\( -name '*.css' -o -name '*.js' \\)` --bundle --minify --splitting --format=esm --outdir=./dist/assets",
+        "watch": "npm run clean && mkdir -p ./dist/assets && cp -r ./static ./dist/ && cp ./*.html ./dist/ && esbuild `find ./src/ \\( -name '*.css' -o -name '*.js' \\)` --bundle --watch --splitting --format=esm --external:*.woff2 --outdir=./dist/assets"
     }
 }
