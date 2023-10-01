@@ -28,7 +28,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
       - name: Build js/css assets
         run: npm run build
       - name: Upload assets
