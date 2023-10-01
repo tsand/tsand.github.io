@@ -1,15 +1,23 @@
 version: '3.3'
 services:
-  jekyll:
-    image: jekyll/jekyll
-    container_name: jekyll
-    volumes:
-        - './:/srv/jekyll'
-    ports:
-        - '4000:4000'
-    command: jekyll serve --incremental --force_polling
+  # jekyll:
+  #   image: jekyll/jekyll
+  #   container_name: jekyll
+  #   volumes:
+  #       - './:/srv/jekyll'
+  #   ports:
+  #       - '4000:4000'
+  #   command: jekyll serve --incremental --force_polling
+  #   networks:
+  #     - reverse-proxy
+
+  web:
+    container_name: web
+    image: nginx:alpine
     networks:
       - reverse-proxy
+    volumes:
+      - .:/usr/share/nginx/html:ro
 
 networks:
   reverse-proxy:

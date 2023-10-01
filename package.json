@@ -1,0 +1,23 @@
+{
+    "name": "app",
+    "version": "1.0.0",
+    "dependencies": {
+        "rehype": "^13.0.1",
+        "rehype-highlight": "^7.0.0",
+        "rehype-sanitize": "^6.0.0",
+        "rehype-stringify": "^10.0.0",
+        "remark": "^15.0.1",
+        "remark-parse": "^11.0.0",
+        "remark-rehype": "^11.0.0",
+        "unified": "^11.0.3"
+    },
+    "devDependencies": {
+        "esbuild": "0.19.4",
+        "serve": "^14.2.1"
+    },
+    "scripts": {
+        "clean": "rm -rf ./assets/*",
+        "build": "npm run clean && esbuild `find ./src/ \\( -name '*.css' -o -name '*.js' \\)` --bundle --splitting --format=esm --outdir=./assets && cp ./src/*.svg ./assets/",
+        "serve": "serve . -l 4000"
+    }
+}
