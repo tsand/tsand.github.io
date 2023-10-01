@@ -94,16 +94,7 @@ function insertMessage(messageClass, text) {
     messageContent.className = "message-content";
     message.appendChild(messageContent);
     chatArea.prepend(message);
-
-    if (!text.includes("\n")) {
-        // If the message is a single line we don't need to load the extra libraries
-        const p = document.createElement("p");
-        p.textContent = text;
-        messageContent.appendChild(p);
-    } else {
-        convertTextToHTML(text).then((html) => (messageContent.innerHTML = html));
-    }
-
+    convertTextToHTML(text).then((html) => (messageContent.innerHTML = html));
     return messageContent;
 }
 
@@ -183,7 +174,7 @@ async function convertTextToHTML(text) {
 }
 
 function containsBasicMarkdown(str) {
-    const markdownPattern = /(\n|#+\s.*|\*{1,2}[^*]+\*{1,2}|_{1,2}[^_]+_{1,2})/;
+    const markdownPattern = /\n|#+\s.*|\*{1,2}[^*]+\*{1,2}|_{1,2}[^_]+_{1,2}/;
     return markdownPattern.test(str);
 }
 
