@@ -17,8 +17,9 @@
     },
     "scripts": {
         "clean": "rm -rf ./dist/*",
-        "build": "npm run clean && mkdir -p ./dist/assets && cp ./static ./dist/static/ && cp ./*.html ./dist/ && esbuild `find ./src/ \\( -name '*.css' -o -name '*.js' \\)` --bundle --splitting --format=esm --outdir=./dist/assets",
-        "build-prod": "npm run clean && mkdir -p ./dist/assets && cp -r ./static ./dist/ && cp ./*.html ./dist/ && esbuild `find ./src/ \\( -name '*.css' -o -name '*.js' \\)` --bundle --minify --splitting --format=esm --outdir=./dist/assets",
-        "watch": "npm run clean && mkdir -p ./dist/assets && cp -r ./static ./dist/ && cp ./*.html ./dist/ && esbuild `find ./src/ \\( -name '*.css' -o -name '*.js' \\)` --bundle --watch --splitting --format=esm --external:*.woff2 --outdir=./dist/assets"
+        "setup": "npm run clean && mkdir -p ./dist/assets && cp -r ./static ./dist/ && cp ./*.html ./dist/",
+        "build": "npm run setup && esbuild `find ./src/ \\( -name '*.css' -o -name '*.js' \\)` --bundle $esbuild_flags --splitting --format=esm --external:*.woff2 --outdir=./dist/assets",
+        "build-prod": "esbuild_flags='--minify' npm run build",
+        "watch": "esbuild_flags='--watch' npm run build"
     }
 }
