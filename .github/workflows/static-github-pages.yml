@@ -49,7 +49,7 @@ jobs:
       - name: Download build assets
         uses: actions/download-artifact@v3
         with:
-          name: bundled-assets
+          name: dist
           path: ./dist/
       - name: Setup Pages
         uses: actions/configure-pages@v3
