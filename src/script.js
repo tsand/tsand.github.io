@@ -30,7 +30,7 @@ async function sendMessage() {
 
     const el = insertMessage('message', []);
     try {
-        const eventSource = new EventSource(getUrl('chat/message', {withCredentials: true, message: textContent}));
+        const eventSource = new EventSource(getUrl('chat/message', {message: textContent}));
         if (mode !== null) {
             eventSource.url += `&mode=${mode}`
         }

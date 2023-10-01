@@ -17,7 +17,7 @@ services:
     networks:
       - reverse-proxy
     volumes:
-      - .:/usr/share/nginx/html:ro
+      - ./dist:/usr/share/nginx/html:ro
 
 networks:
   reverse-proxy:
