@@ -18,6 +18,7 @@
     "scripts": {
         "clean": "rm -rf ./dist/*",
         "build": "npm run clean && esbuild `find ./src/ \\( -name '*.css' -o -name '*.js' \\)` --bundle --splitting --format=esm --outdir=./dist/assets && cp ./src/*.svg ./dist/assets/ && cp ./*.html ./dist/",
+        "build-prod": "npm run clean && esbuild `find ./src/ \\( -name '*.css' -o -name '*.js' \\)` --bundle --minify --splitting --format=esm --outdir=./dist/assets && cp ./src/*.svg ./dist/assets/ && cp ./*.html ./dist/",
         "serve": "serve . -l 4000"
     }
 }

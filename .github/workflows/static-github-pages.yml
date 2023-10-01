@@ -30,7 +30,7 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Build js/css assets
-        run: npm run build
+        run: npm run build-prod
       - name: Upload assets
         uses: actions/upload-artifact@v3
         with:
