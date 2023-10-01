@@ -24,15 +24,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
       - name: Install Dependencies
         run: npm install
       - name: Build js/css assets
         run: npm run build
       - name: Upload assets
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: bundled-assets
           path: ./assets/
@@ -46,9 +46,9 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Download build assets
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: bundled-assets
           path: ./assets/
