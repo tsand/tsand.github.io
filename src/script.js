@@ -72,7 +72,13 @@ async function sendMessageViaPOST(message, callback) {
                 throw new Error(eventData);
             }
 
-            callback(eventData);
+            // Allow DOM updates to occur before processing the next event
+            await new Promise(resolve => {
+                requestAnimationFrame(async () => {
+                    callback(eventData);
+                    resolve();
+                });
+            });
         }
     }
 }
@@ -170,7 +176,9 @@ async function convertTextToHTML(text) {
         const { default: f } = await import("./textToHTML.js");
         textToHTML = f;
     }
-    return await textToHTML(text);
+    const out = await textToHTML(text);
+    return out;
+    // return out.replace(/<code(?!\/>)/g, '<button><object data="/static/copy.svg" type="image/svg+xml"></object></button><code');
 }
 
 function containsBasicMarkdown(str) {

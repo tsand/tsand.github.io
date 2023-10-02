@@ -58,7 +58,7 @@ button.button-svg {
   border: none;
 }
 
-button.button-svg svg {
+button.button-svg object {
   width: 60%;
 }
 
@@ -76,9 +76,17 @@ button:disabled .show-disabled {
   display: block;
 }
 
-svg.spin {
+a object, button object {
+  pointer-events: none;
+}
+
+object.spin {
   animation: rotation 2s infinite linear;
   transform-origin: 50% 50%;
+}
+
+a.icon-link {
+  width: 1.5rem;
 }
 
 @keyframes rotation {
