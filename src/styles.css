@@ -154,6 +154,10 @@ a.icon-link {
   margin: 0;
 }
 
+.message .message-content img {
+  max-width: 16rem;
+}
+
 .message p:not(:last-child) {
   margin: 0 0 0.5rem 0;
 }
