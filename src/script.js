@@ -1,6 +1,7 @@
 const textArea = document.querySelector(".chat-input textarea");
 const submitButton = document.querySelector(".chat-input button");
 const modesDiv = document.querySelector("#modes");
+const darkToggle = document.querySelector("#theme-toggle");
 const chatArea = document.querySelector(".chat-area");
 const prompts = document.querySelector(".prompts");
 const cannedPrompts = document.querySelectorAll(".canned-prompt");
@@ -249,6 +250,21 @@ cannedPrompts.forEach((button) => {
         }
     });
 });
+
+darkToggle.checked = theme === "dark";
+darkToggle.addEventListener("click", (e) => {
+    setTheme(e.target.checked);
+});
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ({ matches }) => {
+    setTheme(matches);
+});
+
+function setTheme(dark) {
+    let theme =  dark ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.theme = theme;
+}
 
 loadModes();
 loadHistory();

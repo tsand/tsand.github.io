@@ -12,14 +12,16 @@
         "unified": "^11.0.3"
     },
     "devDependencies": {
+        "chokidar": "^3.5.3",
         "esbuild": "0.19.4",
+        "esbuild-sass-plugin": "^2.16.0",
+        "fs-extra": "^11.1.1",
         "serve": "^14.2.1"
     },
     "scripts": {
-        "clean": "rm -rf ./dist/*",
-        "setup": "npm run clean && mkdir -p ./dist/assets && cp -r ./static ./dist/ && cp ./*.html ./dist/",
-        "build": "npm run setup && esbuild `find ./src/ \\( -name '*.css' -o -name '*.js' \\)` --bundle $esbuild_flags --splitting --format=esm --external:*.woff2 --outdir=./dist/assets",
-        "build-prod": "esbuild_flags='--minify' npm run build",
-        "watch": "esbuild_flags='--watch' npm run build"
+        "clean": "node build.js --clean",
+        "build": "node build.js",
+        "build-prod": "node build.js --prod",
+        "watch": "node build.js --watch"
     }
 }

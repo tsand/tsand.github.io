@@ -1,56 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="#" />
+        <meta name="description" content="#" />
+        <meta name="referrer" content="no-referrer" />
+        <link rel="icon" href="/static/icon/t.svg" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="author" content="#">
-  <meta name="description" content="#">
-  <meta name="referrer" content="no-referrer">
-  <link rel="icon" href="/static/icon/t.svg">
+        <link rel="preload" as="style" href="assets/styles.css" />
+        <link rel="stylesheet" href="assets/styles.css" />
 
-  <link rel="preload" as="style" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/styles.css">
+        <link rel="preload" href="assets/script.js" as="script" />
 
-  <link rel="preload" href="assets/script.js" as="script">
+        <title>Theisen Sanders</title>
 
-  <title>Theisen Sanders</title>
-</head>
+        <script>
+            const theme =
+                localStorage.theme ||
+                (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+            document.documentElement.setAttribute("data-theme", theme);
+        </script>
+    </head>
 
-<body>
-  <main role="main">
-    <div class="container">
-      <div class="toolbar">
-        <a href="/" role="link" aria-label="Home" class="icon-link">
-          <object data="/static/icon/t.svg" type="image/svg+xml"></object>
-        </a>
-        <div id="modes"></div>
-        <a href="https://github.com/tsand" role="link" aria-label="Github" class="icon-link">
-          <object data="/static/icon/github.svg" type="image/svg+xml"></object>
-        </a>
-      </div>
-      <div class="chat-area"></div>
-      <div class="chat-input">
-        <div class="input-group">
-          <textarea class="chat-input" placeholder="Type your question here..." autofocus></textarea>
-          <button id="submit" class="button-svg">
-            <object data="/static/icon/submit.svg" type="image/svg+xml" class="hide-disabled"></object>
-            <object data="/static/icon/spin.svg" type="image/svg+xml" class="spin show-disabled"></object>
-          </button>
-        </div>
-      </div>
-      <div class="prompts"></div>
-      <div class="footer">
-        <p>&copy;<span id="current-year">2023</span> Theisen Sanders</p>
-        <div>
-          <a href="#" role="link" aria-label="#" class="canned-prompt" data-submit="false"
-            data-prompt="Send an email to Theisen:">Contact</a>
-        </div>
-      </div>
-    </div>
-  </main>
+    <body>
+        <main role="main">
+            <div class="container">
+                <div class="toolbar">
+                    <a href="/" role="link" aria-label="Home" class="icon-link">
+                        <object data="/static/icon/t.svg" type="image/svg+xml"></object>
+                    </a>
+                    <div id="modes"></div>
+                    <a
+                        href="https://github.com/tsand"
+                        role="link"
+                        aria-label="Github"
+                        class="icon-link">
+                        <object data="/static/icon/github.svg" type="image/svg+xml"></object>
+                    </a>
+                </div>
+                <div class="chat-area"></div>
+                <div class="chat-input">
+                    <div class="input-group">
+                        <textarea
+                            class="chat-input"
+                            placeholder="Type your question here..."
+                            autofocus></textarea>
+                        <button id="submit" class="button-svg">
+                            <object
+                                data="/static/icon/submit.svg"
+                                type="image/svg+xml"
+                                class="hide-disabled"></object>
+                            <object
+                                data="/static/icon/spin.svg"
+                                type="image/svg+xml"
+                                class="spin show-disabled"></object>
+                        </button>
+                    </div>
+                </div>
+                <div class="prompts"></div>
+                <div class="footer">
+                    <p>&copy;<span id="current-year">2023</span> Theisen Sanders</p>
+                    <div id="theme">
+                        <input type="checkbox" id="theme-toggle" name="theme-toggle" />
+                        <label for="theme-toggle">Dark Mode</label>
+                    </div>
+                    <div>
+                        <a
+                            href="#"
+                            role="link"
+                            aria-label="#"
+                            class="canned-prompt"
+                            data-submit="false"
+                            data-prompt="Send an email to Theisen:"
+                            >Contact</a
+                        >
+                    </div>
+                </div>
+            </div>
+        </main>
 
-  <script src="assets/script.js"></script>
-</body>
-
+        <script src="assets/script.js"></script>
+    </body>
 </html>
