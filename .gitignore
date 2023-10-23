@@ -1,6 +1,4 @@
 .DS_Store
 dist/
-Gemfile.lock
-.jekyll-metadata
 node_modules/
 package-lock.json
