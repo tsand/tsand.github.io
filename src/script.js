@@ -75,7 +75,7 @@ async function sendMessageViaPOST(message, callback) {
             }
 
             // Allow DOM updates to occur before processing the next event
-            await new Promise(resolve => {
+            await new Promise((resolve) => {
                 requestAnimationFrame(async () => {
                     callback(eventData);
                     resolve();
@@ -132,7 +132,7 @@ async function loadHistory() {
                 className += " message-right";
                 useHtml = false;
             }
-            insertMessage(className, content, useHtml = useHtml);
+            insertMessage(className, content, (useHtml = useHtml));
         });
     } catch (e) {
         console.log(e);
@@ -146,7 +146,7 @@ async function loadHistory() {
 async function loadPrompts() {
     try {
         const limit = isWidthLessThan48rem() ? 2 : 3;
-        const response = await fetch(getUrl("chat/prompts", {limit: limit}), {
+        const response = await fetch(getUrl("chat/prompts", { limit: limit }), {
             method: "GET",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
@@ -158,16 +158,7 @@ async function loadPrompts() {
             button.className = "canned-prompt";
             button.setAttribute("data-prompt", prompt);
             button.append(title);
-            button.addEventListener("click", (e) => {
-                e.preventDefault();
-                textArea.value = e.target.attributes["data-prompt"].value;
-                if (
-                    !e.target.attributes["data-submit"] ||
-                    e.target.attributes["data-submit"].value !== "false"
-                ) {
-                    sendMessage();
-                }
-            });
+            button.addEventListener("click", handleCannedPromptClick);
             prompts.appendChild(button);
         });
     } catch (e) {
@@ -222,6 +213,19 @@ async function convertTextToHTML(text) {
     // return out.replace(/<code(?!\/>)/g, '<button><object data="/static/copy.svg" type="image/svg+xml"></object></button><code');
 }
 
+function handleCannedPromptClick(e) {
+    e.preventDefault();
+    textArea.value = e.target.attributes["data-prompt"].value;
+    if (
+        !e.target.attributes["data-submit"] ||
+        e.target.attributes["data-submit"].value !== "false"
+    ) {
+        sendMessage();
+    } else {
+        textArea.focus();
+    }
+}
+
 function containsBasicMarkdown(str) {
     const markdownPattern = /\n|#+\s.*|\*{1,2}[^*]+\*{1,2}|_{1,2}[^_]+_{1,2}/;
     return markdownPattern.test(str);
@@ -240,16 +244,7 @@ textArea.addEventListener("keydown", (e) => {
 });
 
 cannedPrompts.forEach((button) => {
-    button.addEventListener("click", (e) => {
-        e.preventDefault();
-        textArea.value = e.target.getAttribute("data-prompt");
-        if (
-            !e.target.getAttribute("data-submit") ||
-            e.target.getAttribute("data-submit") !== "false"
-        ) {
-            sendMessage();
-        }
-    });
+    button.addEventListener("click", handleCannedPromptClick);
 });
 
 darkToggle.checked = theme === "dark";
@@ -257,12 +252,12 @@ darkToggle.addEventListener("click", (e) => {
     setTheme(e.target.checked);
 });
 
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ({ matches }) => {
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
     setTheme(matches);
 });
 
 function setTheme(dark) {
-    let theme =  dark ? "dark" : "light";
+    let theme = dark ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.theme = theme;
 }
