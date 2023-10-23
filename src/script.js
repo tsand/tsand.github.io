@@ -1,5 +1,6 @@
 const textArea = document.querySelector(".chat-input textarea");
 const submitButton = document.querySelector(".chat-input button");
+const modesDiv = document.querySelector("#modes");
 const chatArea = document.querySelector(".chat-area");
 const prompts = document.querySelector(".prompts");
 const cannedPrompts = document.querySelectorAll(".canned-prompt");
@@ -93,14 +94,18 @@ function parseEventData(eventString) {
     return eventMatch && eventMatch[1] ? JSON.parse(eventMatch[1]) : null;
 }
 
-function insertMessage(messageClass, text) {
+function insertMessage(messageClass, text, useHtml = false) {
     const message = document.createElement("div");
     message.className = messageClass;
     const messageContent = document.createElement("div");
     messageContent.className = "message-content";
     message.appendChild(messageContent);
     chatArea.prepend(message);
-    convertTextToHTML(text).then((html) => (messageContent.innerHTML = html));
+    if (useHtml) {
+        convertTextToHTML(text).then((html) => (messageContent.innerHTML = html));
+    } else {
+        messageContent.textContent = text;
+    }
     return messageContent;
 }
 
@@ -121,10 +126,12 @@ async function loadHistory() {
 
         responseData.forEach(({ role, content }) => {
             let className = "message";
+            let useHtml = true;
             if (role === "user") {
                 className += " message-right";
+                useHtml = false;
             }
-            insertMessage(className, content);
+            insertMessage(className, content, useHtml = useHtml);
         });
     } catch (e) {
         console.log(e);
@@ -161,6 +168,38 @@ async function loadPrompts() {
             });
             prompts.appendChild(button);
         });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function loadModes() {
+    try {
+        const response = await fetch(getUrl("chat/modes"), {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+        });
+        const responseData = await response.json();
+
+        if (responseData.length < 2) {
+            return;
+        }
+
+        const select = document.createElement("select");
+        responseData.forEach((m) => {
+            const option = document.createElement("option");
+            option.setAttribute("value", m.name);
+            if (m.selected === true) {
+                option.setAttribute("selected", "selected");
+            }
+            option.append(m.name + " (" + m.model + ")");
+            select.appendChild(option);
+        });
+        select.addEventListener("change", (e) => {
+            window.location.href = `?mode=${e.target.value}`;
+        });
+        modesDiv.appendChild(select);
     } catch (e) {
         console.log(e);
     }
@@ -211,6 +250,7 @@ cannedPrompts.forEach((button) => {
     });
 });
 
+loadModes();
 loadHistory();
 loadPrompts();
 document.getElementById("current-year").textContent = new Date().getFullYear();

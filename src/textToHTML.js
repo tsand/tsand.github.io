@@ -5,12 +5,18 @@ import remarkRehype from "remark-rehype";
 import rehypeHighlight from "rehype-highlight";
 import { unified } from "unified";
 
+const darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
 let highlightLoaded = false;
 
 const textToHTML = async (input) => {
     // If input contains ``` tags load css if we haven't already
     if (!highlightLoaded && input.includes("```")) {
-        loadCSS("./assets/code.css");
+        if (darkMode) {
+            loadCSS("./assets/code-dark.css");
+        } else {
+            loadCSS("./assets/code.css");
+        }
         highlightLoaded = true;
     }
 

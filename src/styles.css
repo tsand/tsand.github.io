@@ -1,233 +1,275 @@
-:root {
-  --body-color: #1A1A1A;
-  --error-color: #e70058;
+:root,
+:root.light {
+    --body-color: #1a1a1a;
+    --error-color: #e70058;
+    --background-color: #ffffff;
+    --border-color: #ebebeb;
+    --button-hover-bg-color: #eeeeee;
+    --input-color: #000;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --body-color: #f0f0f0;
+        --background-color: #212121;
+        --border-color: #3a3a3a;
+        --button-hover-bg-color: #424242;
+        --input-color: #f0f0f0;
+    }
+
+    /* Invert all svg colors */
+    object {
+        filter: invert(1);
+    }
+}
+
+:root.dark {
+    --body-color: #f0f0f0;
+    --background-color: #212121;
+    --border-color: #3a3a3a;
+    --button-hover-bg-color: #424242;
+    --input-color: #f0f0f0;
+}
+
+:root.dark object {
+    filter: initial;
 }
 
 html {
-  box-sizing: border-box;
+    box-sizing: border-box;
+    background-color: var(--background-color);
 }
 
 *,
 *:before,
 *:after {
-  box-sizing: inherit;
+    box-sizing: inherit;
 }
 
 @font-face {
-  font-family: 'Inter';
-  src: url('/static/Inter-Regular.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+    font-family: "Inter";
+    src: url("/static/Inter-Regular.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-  font-family: 'Inter';
-  src: url('/static/Inter-Bold.woff2') format('woff2');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
+    font-family: "Inter";
+    src: url("/static/Inter-Bold.woff2") format("woff2");
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
 }
 
 body {
-  margin: 0 auto;
-  font-family: "Inter", sans-serif;
-  line-height: 1.5;
-  color: var(--body-color);
-  font-weight: 400;
+    margin: 0 auto;
+    font-family: "Inter", sans-serif;
+    line-height: 1.5;
+    color: var(--body-color);
+    font-weight: 400;
 }
 
 a,
 button {
-  text-decoration: none;
-  color: var(--body-color);
+    text-decoration: none;
+    color: var(--body-color);
 }
 
 button {
-  background: none;
-  cursor: pointer;
-  text-align: center;
+    background: none;
+    cursor: pointer;
+    text-align: center;
 }
 
 button:hover {
-  background-color: #eeeeee;
-  fill: #000;
+    background-color: var(--button-hover-bg-color);
+    fill: var(--input-color);
 }
 
 button.button-svg {
-  border: none;
+    border: none;
 }
 
 button.button-svg object {
-  width: 60%;
+    width: 60%;
 }
 
 button .show-disabled {
-  display: none;
-  width: 0;
+    display: none;
+    width: 0;
 }
 
 button:disabled .hide-disabled {
-  display: none;
-  width: 0;
+    display: none;
+    width: 0;
 }
 
 button:disabled .show-disabled {
-  display: block;
+    display: block;
 }
 
-a object, button object {
-  pointer-events: none;
+a object,
+button object {
+    pointer-events: none;
 }
 
 object.spin {
-  animation: rotation 2s infinite linear;
-  transform-origin: 50% 50%;
+    animation: rotation 2s infinite linear;
+    transform-origin: 50% 50%;
 }
 
 a.icon-link {
-  width: 1.5rem;
+    width: 1.5rem;
 }
 
 @keyframes rotation {
-  from {
-    transform: rotate(0deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
 
-  to {
-    transform: rotate(359deg);
-  }
+    to {
+        transform: rotate(359deg);
+    }
 }
 
 .container {
-  height: 100vh;
+    height: 100vh;
 
-  display: grid;
-  grid-template-columns: 0.05rem 0 1fr 0rem 0.05rem;
-  grid-template-rows: 2.2rem 1fr 4rem 6rem 2rem;
-  gap: 1em 1em;
-  grid-auto-flow: row;
-  grid-template-areas:
-    ". toolbar toolbar toolbar ."
-    ". . chat-area . ."
-    ". . chat-input . ."
-    ". . prompts . ."
-    ". footer footer footer .";
+    display: grid;
+    grid-template-columns: 0.05rem 0 1fr 0rem 0.05rem;
+    grid-template-rows: 2.2rem 1fr 6rem 4rem 2rem;
+    gap: 1em 1em;
+    grid-auto-flow: row;
+    grid-template-areas:
+        ". toolbar toolbar toolbar ."
+        ". . chat-area . ."
+        ". . chat-input . ."
+        ". . prompts . ."
+        ". footer footer footer .";
 }
 
 @media screen and (min-width: 48rem) {
-  .container {
-    grid-template-columns: 5rem 1fr 4fr 1fr 5rem;
-    grid-template-rows: 3rem 1fr 4rem 6rem 2rem;
-  }
+    .container {
+        grid-template-columns: 5rem 1fr 4fr 1fr 5rem;
+        grid-template-rows: 3rem 1fr 4rem 6rem 2rem;
+    }
 }
 
 .toolbar {
-  grid-area: toolbar;
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
+    grid-area: toolbar;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1rem;
 }
 
 .chat-area {
-  grid-area: chat-area;
-  display: flex;
-  overflow-y: auto;
-  flex-direction: column-reverse;
-  border: 1px solid #ebebeb;
-  border-radius: 1rem;
-  padding: 1rem;
+    grid-area: chat-area;
+    display: flex;
+    overflow-y: auto;
+    flex-direction: column-reverse;
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 1rem;
 }
 
 .message {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
 }
 
 .message-error {
-  color: var(--error-color);
+    color: var(--error-color);
 }
 
 .message .message-content {
-  max-width: 75%;
-  margin: 0;
+    max-width: 75%;
+    margin: 0;
 }
 
 .message .message-content img {
-  max-width: 16rem;
+    max-width: 16rem;
+}
+
+.message .message-content code {
+    white-space: pre-wrap;
 }
 
 .message p:not(:last-child) {
-  margin: 0 0 0.5rem 0;
+    margin: 0 0 0.5rem 0;
 }
 
 .message-right {
-  flex-direction: row-reverse;
+    flex-direction: row-reverse;
 }
 
 .prompts {
-  grid-area: prompts;
-  display: flex;
-  justify-content: space-evenly;
-  gap: 1rem;
+    grid-area: prompts;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 1rem;
 }
 
 .prompts button {
-  flex: 1 1 0;
-  width: 0;
-  border: 1px solid #ebebeb;
-  border-radius: 0.3rem;
+    flex: 1 1 0;
+    width: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 0.3rem;
 }
 
 .chat-input {
-  grid-area: chat-input;
+    grid-area: chat-input;
 }
 
 input,
+select,
 button,
 textarea {
-  color: inherit;
-  font-family: inherit;
-  font-size: 1rem;
-  line-height: 1;
-  margin: 0;
-  outline: none;
-  text-rendering: inherit;
-  text-transform: none;
+    background-color: var(--input-background-color);
+    color: var(--input-color);
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1;
+    margin: 0;
+    outline: none;
+    text-rendering: inherit;
+    text-transform: none;
 }
 
 textarea {
-  resize: none;
-  outline: none;
-  border: .0625rem solid #ebebeb;
-  border-radius: 1rem;
-  padding: 1rem 5rem 1rem 1rem;
-  width: 100%;
-  height: 100%;
+    background-color: var(--input-background-color);
+    color: var(--input-color);
+    border: 0.0625rem solid var(--border-color);
+    resize: none;
+    outline: none;
+    border-radius: 1rem;
+    padding: 1rem 5rem 1rem 1rem;
+    width: 100%;
+    height: 100%;
 }
 
 .footer {
-  grid-area: footer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: smaller;
+    grid-area: footer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: smaller;
 }
 
 .input-group {
-  position: relative;
-  width: 100%;
-  height: 100%;
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 .input-group button {
-  position: absolute;
-  top: 0.75rem;
-  right: 0;
-  border-radius: 0.3rem;
-  height: calc(100% - 1.5rem);
-  background-color: transparent;
-  color: #000;
-  width: 4rem;
+    position: absolute;
+    top: 0.75rem;
+    right: 0;
+    border-radius: 0.3rem;
+    height: calc(100% - 1.5rem);
+    background-color: transparent;
+    color: var(--input-color);
+    width: 4rem;
 }
