@@ -145,7 +145,8 @@ async function loadHistory() {
 
 async function loadPrompts() {
     try {
-        const response = await fetch(getUrl("chat/prompts"), {
+        const limit = isWidthLessThan48rem() ? 2 : 3;
+        const response = await fetch(getUrl("chat/prompts", {limit: limit}), {
             method: "GET",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
@@ -264,6 +265,12 @@ function setTheme(dark) {
     let theme =  dark ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.theme = theme;
+}
+
+function isWidthLessThan48rem() {
+    const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const widthInPixels = 48 * rootFontSize;
+    return window.innerWidth < widthInPixels;
 }
 
 loadModes();
