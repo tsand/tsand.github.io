@@ -161,7 +161,7 @@ a.icon-link {
     overflow-y: auto;
     flex-direction: column-reverse;
     border: 1px solid var(--border-color);
-    border-radius: 1rem;
+    border-radius: 0.3rem;
     padding: 1rem;
 }
 
@@ -225,12 +225,12 @@ textarea {
     outline: none;
     text-rendering: inherit;
     text-transform: none;
+    border: 0.0625rem solid var(--border-color);
+    border-radius: 0.3rem;
 }
 
 textarea {
-    border: 0.0625rem solid var(--border-color);
     resize: none;
-    border-radius: 1rem;
     padding: 1rem 5rem 1rem 1rem;
     width: 100%;
     height: 100%;
