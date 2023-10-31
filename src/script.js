@@ -2,6 +2,7 @@ const textArea = document.querySelector(".chat-input textarea");
 const submitButton = document.querySelector(".chat-input button");
 const modesDiv = document.querySelector("#modes");
 const darkToggle = document.querySelector("#theme-toggle");
+const resetButton = document.querySelector("#reset");
 const chatArea = document.querySelector(".chat-area");
 const prompts = document.querySelector(".prompts");
 const cannedPrompts = document.querySelectorAll(".canned-prompt");
@@ -9,11 +10,13 @@ const mode = new URLSearchParams(window.location.search).get("mode");
 
 function getUrl(path, params = {}) {
     if (mode !== null) {
-        params["mode"] = mode;
+        params.mode = mode;
     }
-    return `https://api.theisensanders.com/${path}?${Object.entries(params)
-        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-        .join("&")}`;
+    let baseUrl = `https://api.theisensanders.com/${path}`;
+    if (!Object.keys(params).length) {
+        return baseUrl;
+    }
+    return baseUrl + "?" + new URLSearchParams(params).toString();
 }
 
 async function sendMessage() {
@@ -110,10 +113,10 @@ function insertMessage(messageClass, text, useHtml = false) {
     return messageContent;
 }
 
-async function loadHistory() {
+async function loadHistory(clear = false) {
     try {
         const response = await fetch(getUrl("chat/history"), {
-            method: "GET",
+            method: clear ? "DELETE" : "GET",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
         });
@@ -141,6 +144,11 @@ async function loadHistory() {
             "Unable to load chat history. Please try again later."
         );
     }
+}
+
+async function deleteHistory() {
+    chatArea.innerHTML = "";
+    loadHistory(true);
 }
 
 async function loadPrompts() {
@@ -234,6 +242,11 @@ function containsBasicMarkdown(str) {
 submitButton.addEventListener("click", (e) => {
     e.preventDefault();
     sendMessage();
+});
+
+resetButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    deleteHistory();
 });
 
 textArea.addEventListener("keydown", (e) => {
