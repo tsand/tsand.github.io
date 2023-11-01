@@ -1,14 +1,12 @@
-:root, :root[data-theme="light"] {
+:root,
+:root[data-theme="light"] {
     --body-color: #1a1a1a;
     --error-color: #e70058;
     --background-color: #ffffff;
     --border-color: #ebebeb;
     --button-hover-bg-color: #eeeeee;
     --input-color: #000;
-
-    object {
-        filter: initial;
-    }
+    --icon-color: #000;
 }
 
 :root[data-theme="dark"] {
@@ -17,10 +15,7 @@
     --border-color: #3a3a3a;
     --button-hover-bg-color: #424242;
     --input-color: #f0f0f0;
-
-    object {
-        filter: invert(1);
-    }
+    --icon-color: #f0f0f0;
 }
 
 html {
@@ -58,14 +53,14 @@ body {
     font-weight: 400;
 }
 
+svg {
+    fill: var(--icon-color);
+}
+
 a,
 button {
     text-decoration: none;
     color: var(--body-color);
-
-    object {
-        pointer-events: none;
-    }
 }
 
 button {
@@ -81,7 +76,7 @@ button {
     &.button-svg {
         border: none;
 
-        object {
+        svg {
             width: 60%;
         }
     }
@@ -103,7 +98,7 @@ button {
     }
 }
 
-object.spin {
+svg.spin {
     animation: rotation 2s infinite linear;
     transform-origin: 50% 50%;
 }
