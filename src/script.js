@@ -45,13 +45,14 @@ async function sendMessage() {
 }
 
 async function sendMessageViaPOST(message, callback) {
-    const response = await fetch(getUrl("chat/message"), {
+    const chatId = localStorage.getItem("chat");
+
+    const response = await fetch(getUrl("chat/" + chatId + "/message"), {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             Accept: "text/event-stream",
         },
-        credentials: "include",
         body: JSON.stringify({ message }),
     });
 
@@ -59,7 +60,9 @@ async function sendMessageViaPOST(message, callback) {
         throw new Error(`Fetch error: ${response.statusText}`);
     }
 
-    const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+    const reader = response.body
+        .pipeThrough(new TextDecoderStream())
+        .getReader();
 
     while (true) {
         const { value, done } = await reader.read();
@@ -106,19 +109,49 @@ function insertMessage(messageClass, text, useHtml = false) {
     message.appendChild(messageContent);
     chatArea.prepend(message);
     if (useHtml) {
-        convertTextToHTML(text).then((html) => (messageContent.innerHTML = html));
+        convertTextToHTML(text).then(
+            (html) => (messageContent.innerHTML = html)
+        );
     } else {
         messageContent.textContent = text;
     }
     return messageContent;
 }
 
-async function loadHistory(clear = false) {
+async function createChat() {
     try {
-        const response = await fetch(getUrl("chat/history"), {
+        const response = await fetch(getUrl("chat/"), {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+        });
+
+        const data = await response.json();
+        localStorage.setItem("chat", data.id);
+
+        if (!response.ok) {
+            const text = await response.text();
+            insertMessage("message message-error", "Error: " + text);
+            return;
+        }
+    } catch (e) {
+        console.log(e);
+        insertMessage(
+            "message message-error",
+            "Unable to create chat. Please try again later."
+        );
+    }
+}
+
+async function loadHistory(clear = false) {
+    const chatId = localStorage.getItem("chat");
+    if (!localStorage.getItem("chat")) {
+        await createChat();
+    }
+
+    try {
+        const response = await fetch(getUrl("chat/" + chatId + "/history"), {
             method: clear ? "DELETE" : "GET",
             headers: { "Content-Type": "application/json" },
-            credentials: "include",
         });
         if (!response.ok) {
             const text = await response.text();
@@ -128,7 +161,7 @@ async function loadHistory(clear = false) {
 
         const responseData = await response.json();
 
-        responseData.forEach(({ role, content }) => {
+        responseData.history.forEach(({ role, content }) => {
             let className = "message";
             let useHtml = true;
             if (role === "user") {
@@ -157,7 +190,6 @@ async function loadPrompts() {
         const response = await fetch(getUrl("chat/prompts", { limit: limit }), {
             method: "GET",
             headers: { "Content-Type": "application/json" },
-            credentials: "include",
         });
         const responseData = await response.json();
 
@@ -179,7 +211,6 @@ async function loadModes() {
         const response = await fetch(getUrl("chat/modes"), {
             method: "GET",
             headers: { "Content-Type": "application/json" },
-            credentials: "include",
         });
         const responseData = await response.json();
 
@@ -218,7 +249,6 @@ async function convertTextToHTML(text) {
     }
     const out = await textToHTML(text);
     return out;
-    // return out.replace(/<code(?!\/>)/g, '<button><object data="/static/copy.svg" type="image/svg+xml"></object></button><code');
 }
 
 function handleCannedPromptClick(e) {
@@ -265,9 +295,11 @@ darkToggle.addEventListener("click", (e) => {
     setTheme(e.target.checked);
 });
 
-window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
-    setTheme(matches);
-});
+window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", ({ matches }) => {
+        setTheme(matches);
+    });
 
 function setTheme(dark) {
     let theme = dark ? "dark" : "light";
@@ -276,7 +308,9 @@ function setTheme(dark) {
 }
 
 function isWidthLessThan48rem() {
-    const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const rootFontSize = parseFloat(
+        getComputedStyle(document.documentElement).fontSize
+    );
     const widthInPixels = 48 * rootFontSize;
     return window.innerWidth < widthInPixels;
 }
