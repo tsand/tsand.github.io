@@ -22,5 +22,286 @@
 body {
     background: var(--background);
     color: var(--foreground);
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Animated gradient background */
+body::before {
+    content: "";
+    position: fixed;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(
+            circle at 20% 50%,
+            rgba(120, 119, 198, 0.3),
+            transparent 50%
+        ),
+        radial-gradient(
+            circle at 80% 80%,
+            rgba(255, 119, 198, 0.3),
+            transparent 50%
+        ),
+        radial-gradient(
+            circle at 40% 20%,
+            rgba(119, 198, 255, 0.3),
+            transparent 50%
+        ),
+        radial-gradient(
+            circle at 80% 10%,
+            rgba(198, 255, 119, 0.2),
+            transparent 70%
+        );
+    animation: gradientShift 20s ease-in-out infinite;
+    z-index: -1;
+}
+
+@media (prefers-color-scheme: dark) {
+    body::before {
+        background: radial-gradient(
+                circle at 20% 50%,
+                rgba(120, 119, 198, 0.15),
+                transparent 50%
+            ),
+            radial-gradient(
+                circle at 80% 80%,
+                rgba(255, 119, 198, 0.15),
+                transparent 50%
+            ),
+            radial-gradient(
+                circle at 40% 20%,
+                rgba(119, 198, 255, 0.15),
+                transparent 50%
+            ),
+            radial-gradient(
+                circle at 80% 10%,
+                rgba(198, 255, 119, 0.1),
+                transparent 70%
+            );
+    }
+}
+
+@keyframes gradientShift {
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(-5%, 5%) rotate(90deg);
+    }
+    50% {
+        transform: translate(5%, -5%) rotate(180deg);
+    }
+    75% {
+        transform: translate(-5%, -5%) rotate(270deg);
+    }
+}
+
+/* Glassmorphism base */
+.glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@media (prefers-color-scheme: dark) {
+    .glass {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+}
+
+/* Text animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Smooth transitions */
+a,
+button {
+    transition: all 0.3s ease;
+}
+
+/* Hover scale effect */
+.hover-scale {
+    transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+/* Button shine effect */
+/* @keyframes buttonShine {
+    from {
+        left: -100%;
+    }
+    to {
+        left: 200%;
+    }
+} */
+
+.button-shine {
+    position: relative;
+    overflow: hidden;
+}
+
+.button-shine::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: left 0.5s;
+}
+
+.button-shine:hover::before {
+    animation: buttonShine 0.5s ease;
+}
+
+/* Glow effect for profile image */
+@keyframes profileGlow {
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(120, 119, 198, 0.5),
+            0 0 40px rgba(120, 119, 198, 0.3), 0 0 60px rgba(120, 119, 198, 0.1);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(255, 119, 198, 0.5),
+            0 0 50px rgba(255, 119, 198, 0.3), 0 0 70px rgba(255, 119, 198, 0.1);
+    }
+}
+
+.profile-glow {
+    animation: profileGlow 3s ease-in-out infinite;
+}
+
+/* Floating animation */
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.float-animation {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Enhanced button styles */
+.btn-gradient-github {
+    background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+    position: relative;
+    z-index: 0;
+}
+
+.btn-gradient-github::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: inherit;
+}
+
+.btn-gradient-github:hover::before {
+    opacity: 1;
+}
+
+.btn-gradient-linkedin {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    position: relative;
+    z-index: 0;
+}
+
+.btn-gradient-linkedin::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: inherit;
+}
+
+.btn-gradient-linkedin:hover::before {
+    opacity: 1;
+}
+
+/* Button styles for Tailwind v4 */
+.btn-github {
+    background-color: #1a1a1a;
+    color: white;
+    padding: 0.875rem 1.75rem;
+    border-radius: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 0.025em;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-github:hover {
+    background-color: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.btn-linkedin {
+    background-color: #0077b5;
+    color: white;
+    padding: 0.875rem 1.75rem;
+    border-radius: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 0.025em;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-linkedin:hover {
+    background-color: #005885;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 119, 181, 0.3);
 }
