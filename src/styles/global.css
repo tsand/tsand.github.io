@@ -211,3 +211,15 @@ button {
     background: linear-gradient(90deg, transparent, var(--accent), transparent);
     margin: 0 auto;
 }
+
+/* Subtle link - only shows underline on hover */
+.subtle-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.subtle-link:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 3px;
+}
