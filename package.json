@@ -9,14 +9,14 @@
         "astro": "astro"
     },
     "dependencies": {
-        "astro": "^5.0.0",
-        "astro-icon": "^1.1.0",
+        "astro": "^5.16.6",
+        "astro-icon": "^1.1.5",
         "sharp": "^0.34.5"
     },
     "devDependencies": {
-        "@iconify-json/fa-brands": "^1.2.0",
-        "@tailwindcss/postcss": "^4",
-        "tailwindcss": "^4",
-        "typescript": "^5"
+        "@iconify-json/fa-brands": "^1.2.2",
+        "@tailwindcss/postcss": "^4.1.18",
+        "tailwindcss": "^4.1.18",
+        "typescript": "^5.9.3"
     }
 }
