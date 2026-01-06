@@ -14,8 +14,6 @@
     --foreground-muted: #78716c;
     --accent: #2d6a4f;
     --accent-hover: #1b4332;
-    --accent-subtle: #d8f3dc;
-    --border: #e7e5e4;
     --font-sans: "Space Grotesk", system-ui, sans-serif;
     --font-display: "IBM Plex Serif", Georgia, serif;
 }
@@ -26,8 +24,6 @@
     --color-foreground-muted: var(--foreground-muted);
     --color-accent: var(--accent);
     --color-accent-hover: var(--accent-hover);
-    --color-accent-subtle: var(--accent-subtle);
-    --color-border: var(--border);
     --font-sans: var(--font-sans);
 }
 
@@ -38,8 +34,6 @@
         --foreground-muted: #a8a29e;
         --accent: #40916c;
         --accent-hover: #52b788;
-        --accent-subtle: #1b4332;
-        --border: #44403c;
     }
 }
 
@@ -54,7 +48,6 @@ body {
     min-height: 100vh;
 }
 
-/* Headings use display font */
 h1,
 h2,
 h3,
@@ -64,7 +57,7 @@ h6 {
     font-family: var(--font-display);
 }
 
-/* Subtle geometric grid pattern */
+/* Geometric grid pattern */
 body::before {
     content: "";
     position: fixed;
@@ -96,13 +89,7 @@ body::before {
     }
 }
 
-/* Smooth transitions */
-a,
-button {
-    transition: all 0.2s ease;
-}
-
-/* Profile image styling */
+/* Profile image */
 .profile-image {
     border: 3px solid var(--accent);
     box-shadow: 0 4px 20px rgba(45, 106, 79, 0.2);
@@ -123,7 +110,7 @@ button {
     }
 }
 
-/* Unified button style */
+/* Button */
 .btn {
     background-color: var(--accent);
     color: white;
@@ -142,69 +129,18 @@ button {
     border: none;
 }
 
-/* GitHub button */
-.btn-github {
-    background-color: #24292e;
-}
-
-.btn-github:hover {
-    background-color: #1a1d21;
-    box-shadow: 0 4px 15px rgba(36, 41, 46, 0.4);
-}
-
-/* LinkedIn button */
-.btn-linkedin {
-    background-color: #0a66c2;
-}
-
-.btn-linkedin:hover {
-    background-color: #004182;
-    box-shadow: 0 4px 15px rgba(10, 102, 194, 0.4);
-}
-
-/* CV/Amber button */
-.btn-cv {
-    background-color: var(--accent);
-}
-
 .btn:hover {
     background-color: var(--accent-hover);
     box-shadow: 0 4px 15px rgba(45, 106, 79, 0.35);
 }
 
 @media (prefers-color-scheme: dark) {
-    .btn {
-        color: white;
-    }
     .btn:hover {
         box-shadow: 0 4px 15px rgba(64, 145, 108, 0.4);
     }
 }
 
-/* Outline button variant */
-.btn-outline {
-    background-color: transparent;
-    color: var(--foreground);
-    padding: 0.875rem 1.75rem;
-    border-radius: 0.5rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    font-weight: 500;
-    font-size: 0.95rem;
-    letter-spacing: 0.025em;
-    transition: all 0.2s ease;
-    text-decoration: none;
-    border: 2px solid var(--border);
-}
-
-.btn-outline:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-}
-
-/* Separator line */
+/* Separator */
 .separator {
     width: 80px;
     height: 2px;
@@ -212,7 +148,7 @@ button {
     margin: 0 auto;
 }
 
-/* Subtle link - only shows underline on hover */
+/* Subtle link */
 .subtle-link {
     color: inherit;
     text-decoration: none;
