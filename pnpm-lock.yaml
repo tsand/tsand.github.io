@@ -21,6 +21,9 @@ importers:
       '@iconify-json/fa-brands':
         specifier: ^1.2.2
         version: 1.2.2
+      '@iconify-json/fa6-solid':
+        specifier: ^1.2.4
+        version: 1.2.4
       '@tailwindcss/postcss':
         specifier: ^4.1.18
         version: 4.1.18
@@ -242,6 +245,9 @@ packages:
 
   '@iconify-json/fa-brands@1.2.2':
     resolution: {integrity: sha512-Aze0j7l95gmOLdeC4L+8MvvpN3+QmAVk9IuTJN170zYH5I7jS0jGSIMFsf0KE8vGbG8jPpXkmmDq7qQU8Rymnw==}
+
+  '@iconify-json/fa6-solid@1.2.4':
+    resolution: {integrity: sha512-LmDNNdJVyvF5mPm1yxWvL8KjCc/E8LzoqnF1LNTVpyY2ZJRUlGOWuPIThdbuFBF2IovgttkIyumhyqfmlHdwKg==}
 
   '@iconify/tools@4.2.0':
     resolution: {integrity: sha512-WRxPva/ipxYkqZd1+CkEAQmd86dQmrwH0vwK89gmp2Kh2WyyVw57XbPng0NehP3x4V1LzLsXUneP1uMfTMZmUA==}
@@ -2084,6 +2090,10 @@ snapshots:
     optional: true
 
   '@iconify-json/fa-brands@1.2.2':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/fa6-solid@1.2.4':
     dependencies:
       '@iconify/types': 2.0.0
 

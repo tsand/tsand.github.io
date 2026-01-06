@@ -259,3 +259,26 @@ button {
     transform: translateY(-2px);
     box-shadow: 0 10px 25px -5px rgba(0, 119, 181, 0.3);
 }
+
+.btn-cv {
+    background-color: #dc2626;
+    color: white;
+    padding: 0.875rem 1.75rem;
+    border-radius: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 0.025em;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-cv:hover {
+    background-color: #b91c1c;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(220, 38, 38, 0.3);
+}
