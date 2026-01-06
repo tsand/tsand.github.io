@@ -1,28 +1,22 @@
 {
-  "name": "tsand.github.io",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "next": "15.3.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-icons": "^5.5.0"
-  },
-  "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "15.3.1",
-    "tailwindcss": "^4",
-    "typescript": "^5"
-  }
+    "name": "tsand.github.io",
+    "version": "0.1.0",
+    "packageManager": "pnpm@10.24.0",
+    "scripts": {
+        "dev": "astro dev",
+        "build": "astro build",
+        "preview": "astro preview",
+        "astro": "astro"
+    },
+    "dependencies": {
+        "astro": "^5.0.0",
+        "astro-icon": "^1.1.0",
+        "sharp": "^0.34.5"
+    },
+    "devDependencies": {
+        "@iconify-json/fa-brands": "^1.2.0",
+        "@tailwindcss/postcss": "^4",
+        "tailwindcss": "^4",
+        "typescript": "^5"
+    }
 }

@@ -1,15 +1,47 @@
 @import "tailwindcss";
 
+@font-face {
+    font-family: "Geist";
+    src: url("/fonts/Geist-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Geist";
+    src: url("/fonts/Geist-Medium.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Geist";
+    src: url("/fonts/Geist-SemiBold.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Geist";
+    src: url("/fonts/Geist-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --background: #ffffff;
     --foreground: #171717;
+    --font-geist-sans: "Geist", sans-serif;
 }
 
 @theme inline {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
     --font-sans: var(--font-geist-sans);
-    --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,7 +54,7 @@
 body {
     background: var(--background);
     color: var(--foreground);
-    font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+    font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     position: relative;
@@ -149,41 +181,6 @@ button {
     transform: scale(1.05);
 }
 
-/* Button shine effect */
-/* @keyframes buttonShine {
-    from {
-        left: -100%;
-    }
-    to {
-        left: 200%;
-    }
-} */
-
-.button-shine {
-    position: relative;
-    overflow: hidden;
-}
-
-.button-shine::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.2),
-        transparent
-    );
-    transition: left 0.5s;
-}
-
-.button-shine:hover::before {
-    animation: buttonShine 0.5s ease;
-}
-
 /* Glow effect for profile image */
 @keyframes profileGlow {
     0%,
@@ -216,50 +213,7 @@ button {
     animation: float 3s ease-in-out infinite;
 }
 
-/* Enhanced button styles */
-.btn-gradient-github {
-    background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
-    position: relative;
-    z-index: 0;
-}
-
-.btn-gradient-github::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s;
-    border-radius: inherit;
-}
-
-.btn-gradient-github:hover::before {
-    opacity: 1;
-}
-
-.btn-gradient-linkedin {
-    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-    position: relative;
-    z-index: 0;
-}
-
-.btn-gradient-linkedin::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s;
-    border-radius: inherit;
-}
-
-.btn-gradient-linkedin:hover::before {
-    opacity: 1;
-}
-
-/* Button styles for Tailwind v4 */
+/* Button styles */
 .btn-github {
     background-color: #1a1a1a;
     color: white;

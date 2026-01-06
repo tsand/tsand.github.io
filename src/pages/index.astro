@@ -1,0 +1,69 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
+import profileImage from '../assets/profile.jpg';
+---
+
+<Layout title="Theisen Sanders - Software Engineer">
+  <div class="flex items-center justify-center min-h-screen p-6 md:p-12">
+    <div class="max-w-3xl mx-auto text-center glass rounded-3xl p-8 md:p-12 shadow-2xl">
+      <div class="mb-8 flex justify-center">
+        <div class="relative w-32 h-32 md:w-40 md:h-40 overflow-hidden rounded-full border-4 border-foreground/10 hover-scale shadow-xl profile-glow">
+          <Image
+            src={profileImage}
+            alt="Theisen Sanders Profile Picture"
+            width={320}
+            height={320}
+            format="webp"
+            quality={80}
+            class="w-full h-full object-cover"
+            loading="eager"
+          />
+        </div>
+      </div>
+
+      <h1
+        class="text-5xl md:text-6xl font-bold mb-2 sm:mb-4 tracking-tight animate-fade-in-up"
+        style="animation-delay: 0.2s">
+        Theisen Sanders
+      </h1>
+
+      <p
+        class="text-xl md:text-2xl mb-2 text-foreground/70 animate-fade-in-up"
+        style="animation-delay: 0.3s">
+        Engineering &bull; Product &bull; Leadership
+      </p>
+
+      <p
+        class="text-base md:text-lg mb-6 sm:mb-8 text-foreground/50 animate-fade-in-up"
+        style="animation-delay: 0.4s">
+        Full-stack generalist who ships and scales
+      </p>
+
+      <div
+        class="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in-up"
+        style="animation-delay: 0.5s">
+        <a
+          href="https://github.com/tsand"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-github"
+          aria-label="GitHub Profile">
+          <Icon name="fa-brands:github" class="text-xl" />
+          <span>GitHub</span>
+        </a>
+
+        <a
+          href="https://linkedin.com/in/theisensanders"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-linkedin"
+          aria-label="LinkedIn Profile">
+          <Icon name="fa-brands:linkedin" class="text-xl" />
+          <span>LinkedIn</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>

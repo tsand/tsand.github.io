@@ -1,0 +1,46 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Personal portfolio of Theisen Sanders, a software engineer specializing in full-stack development and cloud architecture." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="keywords" content="software engineer, full stack developer, cloud architecture, web development, Theisen Sanders" />
+    <meta name="author" content="Theisen Sanders" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://theisensanders.com" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content="Personal portfolio of Theisen Sanders, Software Engineer" />
+    <meta property="og:site_name" content="Theisen Sanders Portfolio" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content="Personal portfolio of Theisen Sanders" />
+
+  </head>
+  <body class="antialiased">
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
