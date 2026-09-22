@@ -15,7 +15,7 @@ interface Props {
   description?: string;
 }
 
-const { title, description = "Personal portfolio of Theisen Sanders, a software engineer specializing in full-stack development and cloud architecture." } = Astro.props;
+const { title, description = "Personal site of Theisen Sanders, founder and CTO of Cove and former Director of Engineering at Workiva." } = Astro.props;
 ---
 
 <!doctype html>
@@ -40,14 +40,14 @@ const { title, description = "Personal portfolio of Theisen Sanders, a software 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://theisensanders.com" />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content="Personal portfolio of Theisen Sanders, Software Engineer" />
+    <meta property="og:description" content="Founder and CTO of Cove, formerly Director of Engineering at Workiva." />
     <meta property="og:site_name" content="Theisen Sanders Portfolio" />
     <meta property="og:locale" content="en_US" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content="Personal portfolio of Theisen Sanders" />
+    <meta property="twitter:description" content="Founder and CTO of Cove, formerly Director of Engineering at Workiva." />
 
   </head>
   <body class="antialiased">
